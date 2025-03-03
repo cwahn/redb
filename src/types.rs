@@ -635,3 +635,26 @@ le_impl!(i64);
 le_impl!(i128);
 le_value!(f32);
 le_value!(f64);
+
+// Native support for serde_json::Value
+
+impl Value for serde_json::Value {
+    type SelfType<'a> = serde_json::Value;
+    type AsBytes<'a> = serde_json::Value;
+
+    fn fixed_width() -> Option<usize> {
+        None
+    }
+
+    fn from_bytes<'a>(data: &'a [u8]) -> serde_json::Value {
+        serde_json::from_slice(data).unwrap()
+    }
+
+    fn as_bytes<'a, 'b: 'a>(value: &'a serde_json::Value) -> serde_json::Value {
+        value.clone()
+    }
+
+    fn type_name() -> TypeName {
+        TypeName::internal("serde_json::Value")
+    }
+}
