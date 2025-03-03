@@ -1,0 +1,27 @@
+name: Auto Merge Upstream
+
+on:
+  schedule:
+    - cron: '0 0 * * *'  # daily at midnight
+
+jobs:
+  auto-merge:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Set up Git
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+      - name: Add and fetch upstream
+        run: |
+          git remote add upstream https://github.com/cberner/redb.git || true
+          git fetch upstream
+      - name: Merge upstream changes
+        run: |
+          git checkout master
+          git merge upstream/master --no-edit
+      - name: Push changes
+        run: git push origin master
