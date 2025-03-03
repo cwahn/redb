@@ -1,5 +1,5 @@
 [package]
-name = "redb-json"
+name = "redb"
 description = "Rust Embedded DataBase"
 homepage = "https://www.redb.org"
 repository = "https://github.com/cwahn/redb"
